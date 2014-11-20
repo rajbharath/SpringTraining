@@ -5,6 +5,9 @@ This is the placeholder for my training on spring framework version 4
 As a beginning I have started integrating spring with hibernate along with the postgresql db.
 
 ### Commit 1 : Spring Integration with hibernate - xml based:
+
+I have completed the below functionality.
+
 1.  connected postgres db via hibernate using Spring framework's dependency Injection
 2.  Inserted a row in "user" table
 3.  Retrieved a user from the table
