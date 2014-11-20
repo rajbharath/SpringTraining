@@ -1,11 +1,11 @@
-package dao;
+package com.vanaras.dao;
 
-import model.User;
-import org.springframework.stereotype.Component;
+import com.vanaras.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface UserDao {
     void save(User user);
 

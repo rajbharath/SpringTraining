@@ -1,6 +1,7 @@
-package dao;
+package com.vanaras.daoimpl;
 
-import model.User;
+import com.vanaras.dao.UserDao;
+import com.vanaras.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -36,7 +37,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findByUsername(String username) {
         Session session = sessionFactory.openSession();
-        List<User> users = session.createQuery("from User where username like '%" + username + "%'").list();
+        List<User> users = session.createQuery("from User where lower(username) like '%" + username.toLowerCase() + "%'").list();
         session.close();
         return users;
     }

@@ -3,9 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/library_mgmt_upgraded"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/twtest"/>
         <property name="username" value="postgres"/>
         <property name="password" value="1"/>
     </bean>
@@ -14,7 +14,9 @@
         <property name="dataSource" ref="datasource"/>
         <property name="annotatedClasses">
             <list>
-                <value>model.User</value>
+                <value>com.vanaras.model.User</value>
+                <value>com.vanaras.model.Book</value>
+                <value>com.vanaras.model.Author</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -26,7 +28,16 @@
         </property>
     </bean>
 
-    <bean id="userDAO" class="dao.UserDaoImpl">
+
+    <bean id="userDAO" class="com.vanaras.daoimpl.UserDaoImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+    <bean id="bookDAO" class="com.vanaras.daoimpl.BookDaoImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+    <bean id="authorDAO" class="com.vanaras.daoimpl.AuthorDaoImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
 
