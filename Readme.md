@@ -12,8 +12,7 @@ I have completed the below functionality.
 2.  Inserted a row in "user" table
 3.  Retrieved a user from the table
 
-Note:
-------
+**Note:**
 I have used the xml based spring configuration.
 
 
