@@ -5,8 +5,6 @@ import com.vanaras.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.List;
-
 public class UserDaoImpl implements UserDao {
 
     private SessionFactory sessionFactory;
@@ -19,7 +17,7 @@ public class UserDaoImpl implements UserDao {
     public void save(User user) {
         Session session = sessionFactory.openSession();
         org.hibernate.Transaction transaction = session.beginTransaction();
-        session.persist(user);
+        session.saveOrUpdate(user);
         transaction.commit();
         session.close();
     }
@@ -35,10 +33,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findByUsername(String username) {
+    public User findUserByUsernameAndPassword(String username,String password) {
         Session session = sessionFactory.openSession();
-        List<User> users = session.createQuery("from User where lower(username) like '%" + username.toLowerCase() + "%'").list();
+        User user = (User) session.createQuery("from User where username = '"+username+"' and password = '"+password+"'").uniqueResult();
         session.close();
-        return users;
+        return user;
     }
 }

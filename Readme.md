@@ -16,7 +16,8 @@ I have completed the below functionality.
 I have used the xml based spring configuration.
 
 
-### Commit 2 : Implemented Many To Many relationship in Spring with Hibernate
-1.  I am creating the library management in Spring + Hibernate
-2.  This Commit I have completed **Many To Many** association between **Book** and **Author**
+### Commit 2 : Implemented the Basic Model and Relational Mapping for Library management
+1. I have learnt many to many,one to many relational mapping.
+2. SpringHibernateMain has some random tests for the basic CRUD operations
+
 

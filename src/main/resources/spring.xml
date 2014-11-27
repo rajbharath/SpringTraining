@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
     <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/twtest"/>
@@ -17,6 +18,8 @@
                 <value>com.vanaras.model.User</value>
                 <value>com.vanaras.model.Book</value>
                 <value>com.vanaras.model.Author</value>
+                <value>com.vanaras.model.Publisher</value>
+                <value>com.vanaras.model.Reading</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -40,5 +43,14 @@
     <bean id="authorDAO" class="com.vanaras.daoimpl.AuthorDaoImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
+
+    <bean id="publisherDAO" class="com.vanaras.daoimpl.PublisherDaoImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+    <bean id="readingDAO" class="com.vanaras.daoimpl.ReadingDaoImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
 
 </beans>

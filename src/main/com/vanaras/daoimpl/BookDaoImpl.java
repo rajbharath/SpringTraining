@@ -20,7 +20,7 @@ public class BookDaoImpl implements BookDao {
     public void save(Book book) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.persist(book);
+        session.saveOrUpdate(book);
         transaction.commit();
         session.close();
     }

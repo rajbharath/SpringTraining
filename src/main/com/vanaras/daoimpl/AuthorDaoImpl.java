@@ -20,7 +20,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public void save(Author author) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.persist(author);
+        session.saveOrUpdate(author);
         transaction.commit();
         session.close();
     }

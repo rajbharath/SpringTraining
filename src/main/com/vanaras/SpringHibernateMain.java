@@ -1,40 +1,53 @@
 package com.vanaras;
 
-import com.vanaras.dao.BookDao;
-import com.vanaras.dao.UserDao;
-import com.vanaras.model.Author;
-import com.vanaras.model.Book;
-import com.vanaras.model.User;
+import com.vanaras.dao.*;
+import com.vanaras.model.*;
+import com.vanaras.service.AdministrativeService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SpringHibernateMain {
+
     public static void main(String[] a) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        UserDao userDao = (UserDao) context.getBean("userDAO");
         BookDao bookDao = context.getBean("bookDAO", BookDao.class);
-//        User user = new User();
-//        user.setUsername("Priyadharshani");
-//        userDao.save(user);
-        List<User> users = userDao.findByUsername("priya");
-        Book book = new Book("E PAA");
-        Author author = new Author("Fowler");
+        PublisherDao publisherDao = context.getBean("publisherDAO", PublisherDao.class);
+        AuthorDao authorDao = context.getBean("authorDAO", AuthorDao.class);
+        Book book = new Book("ageless body updatedv3");
+        Author author = new Author("deepak updatedv3");
+        Publisher publisher = publisherDao.findByName("Tata Mc graw hill updatedv2");
         book.getAuthors().add(author);
-        author.getBooks().add(book);
+        book.setPublisher(publisher);
+
         bookDao.save(book);
-        System.out.println("===========================USER================================");
-        for (User u : users) {
-            System.out.println("Printing" + u.toString());
+
+        UserDao userDao = context.getBean("userDAO", UserDao.class);
+        Set<Permission> permissions = new HashSet<>();
+        permissions.add(Permission.ADD_BOOK);
+        permissions.add(Permission.REMOVE_BOOK);
+
+        User user = new User("sakthidheepan", "123456", permissions);
+        userDao.save(user);
+
+        User user1 = userDao.findUserByUsernameAndPassword("sakthidheepan", "123456");
+        Book book_1 = bookDao.findBooksByName("age").get(0);
+        ReadingDao readingDao = context.getBean("readingDAO", ReadingDao.class);
+
+        Reading reading = new Reading(user1, book_1, new Date(System.currentTimeMillis()));
+        readingDao.save(reading);
+        System.out.println(user1.toString());
+        Reading reading_1 = readingDao.findBy(user1).get(0);
+        System.out.println(reading_1.toString());
+        String[] beanNames = context.getBeanDefinitionNames();
+        Arrays.sort(beanNames);
+        for (String beanName : beanNames) {
+            System.out.println(beanName);
         }
-
-
-        List<Book> books = bookDao.findBooksByName("pa");
-
-        System.out.println("===========================BOOK================================");
-        for (Book b : books) {
-            System.out.println("Printing" + b.toString());
-        }
+        AdministrativeService administrativeService = context.getBean("administrativeService", AdministrativeService.class);
         context.close();
     }
 }
