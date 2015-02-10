@@ -1,20 +1,32 @@
 package com.vanaras.service;
 
 
-import com.vanaras.dao.BookDao;
 import com.vanaras.model.Book;
+import com.vanaras.repo.BookRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Service
 public class BookSearchService {
-    private BookDao bookDao;
+    @Autowired
+    private BookRepo bookRepo;
 
-    public BookSearchService(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookSearchService() {
+
+    }
+
+    public BookRepo getBookRepo() {
+        return bookRepo;
+    }
+
+    public void setBookRepo(BookRepo bookRepo) {
+        this.bookRepo = bookRepo;
     }
 
     public List<Book> searchBookByName(String name) throws SQLException {
-        return bookDao.findBooksByName(name);
+        return bookRepo.findBooksByName(name);
     }
 }

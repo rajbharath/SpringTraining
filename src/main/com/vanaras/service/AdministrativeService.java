@@ -1,8 +1,8 @@
 package com.vanaras.service;
 
 
-import com.vanaras.dao.BookDao;
 import com.vanaras.model.*;
+import com.vanaras.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,17 @@ import java.util.List;
 public class AdministrativeService {
 
     @Autowired
-    private final BookDao bookDao;
+    private BookRepo bookRepo;
 
-    public AdministrativeService(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public AdministrativeService() {
+    }
+
+    public BookRepo getBookRepo() {
+        return bookRepo;
+    }
+
+    public void setBookRepo(BookRepo bookRepo) {
+        this.bookRepo = bookRepo;
     }
 
     public void addBook(User user, String name, List<String> authorNames, String publisherName, int noOfCopies, int issuedCount) throws Exception {
@@ -30,14 +37,12 @@ public class AdministrativeService {
         for (String authorName : authorNames) {
             book.getAuthors().add(new Author(authorName));
         }
-        book.setIssuedCount(issuedCount);
-        book.setNoOfCopies(noOfCopies);
-        bookDao.save(book);
+        bookRepo.save(book);
     }
 
     public void removeBook(User user, Book book) throws Exception {
         if (!user.isAuthorized(Permission.REMOVE_BOOK)) throw new Exception("User not authorized for this operation");
-        bookDao.delete(book);
+        bookRepo.delete(book);
     }
 
 }

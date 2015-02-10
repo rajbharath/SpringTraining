@@ -1,42 +1,37 @@
-package com.vanaras.daoimpl;
+package com.vanaras.repo;
 
-import com.vanaras.dao.UserDao;
 import com.vanaras.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-public class UserDaoImpl implements UserDao {
+@Repository
+public class UserRepo {
 
+    @Autowired
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
     public void save(User user) {
         Session session = sessionFactory.openSession();
-        org.hibernate.Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(user);
-        transaction.commit();
-        session.close();
     }
 
-    @Override
     public void update(User user) {
 
     }
 
-    @Override
     public void delete(User user) {
 
     }
 
-    @Override
-    public User findUserByUsernameAndPassword(String username,String password) {
+    public User findUserByUsernameAndPassword(String username, String password) {
         Session session = sessionFactory.openSession();
-        User user = (User) session.createQuery("from User where username = '"+username+"' and password = '"+password+"'").uniqueResult();
-        session.close();
+        User user = (User) session.createQuery("from User where username = '" + username + "' and password = '" + password + "'").uniqueResult();
         return user;
     }
 }

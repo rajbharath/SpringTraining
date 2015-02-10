@@ -1,14 +1,17 @@
-package com.vanaras.daoimpl;
+package com.vanaras.repo;
 
-import com.vanaras.dao.BookDao;
 import com.vanaras.model.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class BookDaoImpl implements BookDao {
+@Repository
+public class BookRepo {
+
+    @Autowired
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -16,26 +19,19 @@ public class BookDaoImpl implements BookDao {
     }
 
 
-    @Override
     public void save(Book book) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(book);
-        transaction.commit();
-        session.close();
     }
 
-    @Override
     public void update(Book book) {
 
     }
 
-    @Override
     public void delete(Book book) {
 
     }
 
-    @Override
     public List<Book> findBooksByName(String bookName) {
         Session session = sessionFactory.openSession();
         List<Book> books = session.createQuery("from Book where lower(name) like '%" + bookName.toLowerCase() + "%'").list();

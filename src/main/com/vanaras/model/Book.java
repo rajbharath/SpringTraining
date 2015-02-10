@@ -25,11 +25,9 @@ public class Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @Column(name = "no_of_copies")
-    private int noOfCopies;
-
-    @Column(name = "issued_count")
-    private int issuedCount;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private BookStatus status;
 
 
     Book() {
@@ -95,21 +93,14 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public void setIssuedCount(int issuedCount) {
-        this.issuedCount = issuedCount;
+    public BookStatus getStatus() {
+        return status;
     }
 
-    public int getIssuedCount() {
-        return issuedCount;
+    public void setStatus(BookStatus status) {
+        this.status = status;
     }
 
-    public void setNoOfCopies(int noOfCopies) {
-        this.noOfCopies = noOfCopies;
-    }
-
-    public int getNoOfCopies() {
-        return noOfCopies;
-    }
 
     @Override
     public String toString() {
@@ -120,15 +111,8 @@ public class Book {
                 '}';
     }
 
-    public void increaseIssuedCountByOne() {
-        issuedCount++;
-    }
-
-    public void decreaseIssuedCountByOne() {
-        issuedCount--;
-    }
 
     public boolean isAvailable() {
-        return noOfCopies - issuedCount > 0;
+        return status == BookStatus.AVAILABLE;
     }
 }

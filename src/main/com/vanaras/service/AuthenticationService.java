@@ -1,17 +1,26 @@
 package com.vanaras.service;
 
-import com.vanaras.dao.UserDao;
 import com.vanaras.model.User;
+import com.vanaras.repo.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-
+@Service
 public class AuthenticationService {
 
 
-    private final UserDao userDao;
+    @Autowired
+    private UserRepo userRepo;
 
-    public AuthenticationService(UserDao userDao) throws SQLException, ClassNotFoundException {
-        this.userDao = userDao;
+    public AuthenticationService() {
+    }
+
+    public UserRepo getUserRepo() {
+        return userRepo;
+    }
+
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     public User authenticate(String username, String password) throws Exception {
@@ -21,7 +30,7 @@ public class AuthenticationService {
         if (password == null || password.length() == 0) {
             throw new Exception("Password should be entered");
         }
-        User user = userDao.findUserByUsernameAndPassword(username, password);
+        User user = userRepo.findUserByUsernameAndPassword(username, password);
 
         if (user == null) throw new Exception("User not found");
 

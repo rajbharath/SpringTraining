@@ -1,22 +1,30 @@
 package com.vanaras.service;
 
 
-import com.vanaras.dao.ReadingDao;
-import com.vanaras.model.Book;
-import com.vanaras.model.Permission;
-import com.vanaras.model.Reading;
-import com.vanaras.model.User;
+import com.vanaras.model.*;
+import com.vanaras.repo.ReadingRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 
+@Service
 public class ReadingService {
 
-    private final ReadingDao readingDao;
+    @Autowired
+    private ReadingRepo readingRepo;
 
 
-    public ReadingService(ReadingDao readingDao) {
-        this.readingDao = readingDao;
+    public ReadingService() {
+    }
+
+    public ReadingRepo getReadingRepo() {
+        return readingRepo;
+    }
+
+    public void setReadingRepo(ReadingRepo readingRepo) {
+        this.readingRepo = readingRepo;
     }
 
     public void borrowBook(User user, Book book) throws Exception {
@@ -24,16 +32,16 @@ public class ReadingService {
         if (!user.isAuthorized(Permission.BORROW_BOOK)) throw new Exception("User not authorized to borrow book");
 
         Reading reading = new Reading(user, book, new Date(System.currentTimeMillis()));
-        book.increaseIssuedCountByOne();
-        readingDao.save(reading);
+        book.setStatus(BookStatus.ISSUED);
+        readingRepo.save(reading);
     }
 
     public void returnBook(User user, Book book) throws Exception {
         if (!user.isAuthorized(Permission.RETURN_BOOK)) throw new Exception("User not authorized to return book");
-        Reading reading = readingDao.findBy(user, book);
+        Reading reading = readingRepo.findBy(user, book);
         if (reading == null) throw new Exception("User currently has no reading on the given book");
-        book.decreaseIssuedCountByOne();
+        book.setStatus(BookStatus.AVAILABLE);
         reading.close();
-        readingDao.save(reading);
+        readingRepo.save(reading);
     }
 }

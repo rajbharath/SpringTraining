@@ -1,7 +1,6 @@
 package com.vanaras.model;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "\"user\"", uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
@@ -11,17 +10,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username")
+
+    @Column(name = "username",unique = true)
     private String username;
 
     @Column(name = "password")
     private String password;
 
-    @ElementCollection(targetClass = Permission.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_permissions", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "permission")
-    @Enumerated(EnumType.STRING)
-    private Set<Permission> permissions;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Role role;
 
     User() {
     }
@@ -34,10 +31,10 @@ public class User {
         return id;
     }
 
-    public User(String username, String password, Set<Permission> permissions) {
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
-        this.permissions = permissions;
+        this.role = role;
     }
 
     public void setUsername(String username) {
@@ -48,24 +45,31 @@ public class User {
         return username;
     }
 
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
+    public Role getRole() {
+        return role;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", permissions=" + permissions +
                 '}';
     }
 
     public boolean isAuthorized(Permission permission) {
-        return permissions.contains(permission);
+        return role.contains(permission);
     }
 }
 
