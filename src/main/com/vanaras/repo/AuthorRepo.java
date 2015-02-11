@@ -6,9 +6,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
+@Transactional
 public class AuthorRepo {
 
     @Autowired
@@ -32,7 +34,7 @@ public class AuthorRepo {
     }
 
     public List<Author> findAuthorsByName(String authorName) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         List<Author> authors = session.createQuery("from author where name like '%" + authorName + "%'").list();
         return authors;
     }

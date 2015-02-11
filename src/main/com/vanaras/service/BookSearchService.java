@@ -6,10 +6,12 @@ import com.vanaras.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.List;
 
 @Service
+@Transactional
 public class BookSearchService {
     @Autowired
     private BookRepo bookRepo;

@@ -2,7 +2,6 @@ package com.vanaras;
 
 import com.vanaras.model.*;
 import com.vanaras.repo.*;
-import com.vanaras.service.AdministrativeService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -57,11 +55,5 @@ public class SpringHibernateMain {
         System.out.println(user1.toString());
         Reading reading_1 = readingRepo.findBy(user1).get(0);
         System.out.println(reading_1.toString());
-        String[] beanNames = context.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            System.out.println(beanName);
-        }
-        AdministrativeService administrativeService = context.getBean("administrativeService", AdministrativeService.class);
     }
 }

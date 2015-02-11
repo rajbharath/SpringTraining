@@ -6,7 +6,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
+@Transactional
 public class UserRepo {
 
     @Autowired
@@ -17,7 +20,7 @@ public class UserRepo {
     }
 
     public void save(User user) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(user);
     }
 
@@ -30,7 +33,7 @@ public class UserRepo {
     }
 
     public User findUserByUsernameAndPassword(String username, String password) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         User user = (User) session.createQuery("from User where username = '" + username + "' and password = '" + password + "'").uniqueResult();
         return user;
     }
