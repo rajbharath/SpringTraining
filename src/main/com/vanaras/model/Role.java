@@ -1,5 +1,7 @@
 package com.vanaras.model;
 
+import jdk.nashorn.internal.ir.annotations.Reference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,8 +13,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "role_description")
-    private String description;
+    @Column(name = "role_description",unique = true)
+    @Reference
+    @Enumerated(EnumType.STRING)
+    private RoleName description;
 
 
     @ElementCollection(targetClass = Permission.class)
@@ -31,11 +35,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getDescription() {
+    public RoleName getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(RoleName description) {
         this.description = description;
     }
 

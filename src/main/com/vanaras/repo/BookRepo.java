@@ -6,11 +6,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class BookRepo {
 
     @Autowired
@@ -38,5 +36,10 @@ public class BookRepo {
         Session session = sessionFactory.getCurrentSession();
         List<Book> books = session.createQuery("from Book where lower(name) like '%" + bookName.toLowerCase() + "%'").list();
         return books;
+    }
+
+    public Book findById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        return (Book) session.createQuery("from Book B where B.id=:id").setParameter("id",id).uniqueResult();
     }
 }

@@ -20,7 +20,7 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Role role;
 
-    User() {
+    public User() {
     }
 
     public void setId(int id) {

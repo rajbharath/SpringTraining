@@ -30,7 +30,7 @@ public class Book {
     private BookStatus status;
 
 
-    Book() {
+    public Book() {
     }
 
     public Book(String name) {

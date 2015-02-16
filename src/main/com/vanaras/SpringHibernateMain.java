@@ -43,8 +43,8 @@ public class SpringHibernateMain {
         Role role = new Role();
         role.setPermissions(permissions);
 
-//        User user = new User("sakthidheepan", "123456", role);
-//        userRepo.save(user);
+        User user = new User("sakthidheepan", "123456", role);
+        userRepo.save(user);
 
         User user1 = userRepo.findUserByUsernameAndPassword("sakthidheepan", "123456");
         Book book_1 = bookRepo.findBooksByName("age").get(0);

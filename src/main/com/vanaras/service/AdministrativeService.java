@@ -6,12 +6,10 @@ import com.vanaras.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class AdministrativeService {
 
     @Autowired
@@ -28,7 +26,7 @@ public class AdministrativeService {
         this.bookRepo = bookRepo;
     }
 
-    public void addBook(User user, String name, List<String> authorNames, String publisherName, int noOfCopies, int issuedCount) throws Exception {
+    public void addBook(User user, String name, List<String> authorNames, String publisherName) throws Exception {
         if (!user.isAuthorized(Permission.ADD_BOOK)) throw new Exception("User Not Authorized");
         Publisher publisher = new Publisher(publisherName);
 

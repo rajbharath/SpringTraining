@@ -7,16 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
 @Transactional
-public class BookSearchService {
+public class BookService {
     @Autowired
     private BookRepo bookRepo;
 
-    public BookSearchService() {
+    public BookService() {
 
     }
 
@@ -28,7 +27,13 @@ public class BookSearchService {
         this.bookRepo = bookRepo;
     }
 
-    public List<Book> searchBookByName(String name) throws SQLException {
+    public List<Book> searchBookByName(String name) throws Exception {
+        if (name == null) throw new Exception("Null Criteria Found");
+        if (name.trim().length() < 1) throw new Exception("Criteria Should be atleast one character");
         return bookRepo.findBooksByName(name);
+    }
+
+    public Book findById(int id) {
+        return bookRepo.findById(id);
     }
 }
